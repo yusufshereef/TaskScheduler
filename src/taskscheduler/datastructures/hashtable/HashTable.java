@@ -65,5 +65,21 @@ public class HashTable {
         return null;
     }
 
+    public Task delete(String key){
+        int index = getHash(key);
+        HashNode head = hashTable[index];
+        HashNode temp = head;
+        while(temp.next!=null && (!temp.next.key.equals(key))){
+            temp = temp.next;
+        }
+        if(temp.next!=null){
+            Task task = temp.next.value;
+            temp.next = temp.next.next;
+            return task;
+        }else{
+            return null;
+        }
+    }
+
 
 }
