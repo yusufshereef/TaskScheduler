@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Task {
-    private static int count=0;
+    private static int count;
     private final int id;
     private String task_name;
     private LocalDateTime deadline;
