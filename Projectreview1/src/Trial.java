@@ -90,7 +90,6 @@ public class Trial {
         }
 
         displayAllTasks();
-
         // Show recently completed
         System.out.println("\nRecently Completed:");
         stack.displayRecent();
