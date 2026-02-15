@@ -25,6 +25,7 @@ public class Main {
                     System.out.print("\nenter priority (1-HIGH, 2-LOW): ");
                     int priority = sc.nextInt();
                     tm.createTask(task, deadline, priority);
+                    break;
             }
         }while(ch!=3);
     }
