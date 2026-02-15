@@ -34,19 +34,10 @@ public class HashTable {
         return index;
     }
 
-    public void put(String key, Task value){
+    public void put(Task value){
+        String key = value.getTaskName();
         int index = getHash(key);
         HashNode head = hashTable[index];
-        HashNode temp = head;
-
-        while(temp!=null){
-            if(temp.key.equals(key)){
-                System.out.println("Task already exits");
-                return;
-            }
-            temp = temp.next;
-        }
-
         HashNode node = new HashNode(key, value);
         node.next = head;
         hashTable[index] = node;
