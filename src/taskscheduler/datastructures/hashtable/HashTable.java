@@ -89,5 +89,23 @@ public class HashTable {
         return task;
     }
 
+    public void updateTaskDeadline(String taskName, String deadline){
+        Task task = get(taskName);
+        if(task != null){
+            task.setDeadline(deadline);
+        }else{
+            System.out.println("No such task");
+        }
+    }
+
+    public void updateTaskPriority(String taskName, int priority){
+        Task task = get(taskName);
+        if(task != null){
+            task.setPriority(priority);
+        }else{
+            System.out.println("No such task");
+        }
+    }
+
 
 }

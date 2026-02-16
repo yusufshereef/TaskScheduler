@@ -12,7 +12,9 @@ public class TaskManager {
             DoublyLinkedList.DLLNode dllNode = dll.addNode(task);
             hashTable.put(task, dllNode);
         }else{
+            System.out.println();
             System.out.println("task already exists");
+            System.out.println();
         }
     }
 
@@ -26,11 +28,26 @@ public class TaskManager {
             System.out.println("delete from hash table success");
             System.out.println("Task deleted");
         }else{
+            System.out.println();
             System.out.println("No such Task");
+            System.out.println();
         }
     }
 //
     public void displayTasks(){
         dll.display();
     }
+
+    public void updateTaskDeadline(String taskName, String deadline){
+        hashTable.updateTaskDeadline(taskName, deadline);
+        System.out.println("Task successfully updated");
+        System.out.println();
+    }
+
+    public void updateTaskPriority(String taskName, int priority){
+        hashTable.updateTaskPriority(taskName, priority);
+        System.out.println("Task successfully updated");
+        System.out.println();
+    }
+
 }
