@@ -1,16 +1,19 @@
 package taskscheduler.datastructures.hashtable;
 
 import taskscheduler.Task;
+import taskscheduler.datastructures.linkedlist.DoublyLinkedList;
 
 public class HashTable {
-    class HashNode{
+    public class HashNode{
         String key;
         Task value;
+        DoublyLinkedList.DLLNode dllNode;
         HashNode next;
 
-        public HashNode(String key, Task value){
+        public HashNode(String key, Task value, DoublyLinkedList.DLLNode dllNode){
             this.key = key;
             this.value = value;
+            this.dllNode = dllNode;
         }
     }
 
@@ -34,16 +37,17 @@ public class HashTable {
         return index;
     }
 
-    public void put(Task value){
+    public void put(Task value, DoublyLinkedList.DLLNode dllnode){
         String key = value.getTaskName();
         int index = getHash(key);
         HashNode head = hashTable[index];
-        HashNode node = new HashNode(key, value);
+        HashNode node = new HashNode(key, value, dllnode);
         node.next = head;
         hashTable[index] = node;
     }
 
     public Task get(String key){
+        key = key.trim().toLowerCase();
         int index = getHash(key);
         HashNode head = hashTable[index];
         HashNode temp = head;
@@ -56,20 +60,32 @@ public class HashTable {
         return null;
     }
 
-    public Task delete(String key){
+    public DoublyLinkedList.DLLNode getDLLNode(String key){
         int index = getHash(key);
         HashNode head = hashTable[index];
         HashNode temp = head;
-        while(temp.next!=null && (!temp.next.key.equals(key))){
+        while(!temp.key.equals(key)){
             temp = temp.next;
         }
-        if(temp.next!=null){
-            Task task = temp.next.value;
-            temp.next = temp.next.next;
-            return task;
-        }else{
-            return null;
+        DoublyLinkedList.DLLNode dllNode = temp.dllNode;
+        return dllNode;
+    }
+
+    public Task delete(String key){
+        int index = getHash(key);
+        HashNode head = hashTable[index];
+        if(head == null) return null;
+        if(head.key.equals(key)){
+            hashTable[index] = head.next;
+            return head.value;
         }
+        HashNode temp = head;
+        while(!temp.next.key.equals(key)){
+            temp = temp.next;
+        }
+        Task task = temp.next.value;
+        temp.next = temp.next.next;
+        return task;
     }
 
 
