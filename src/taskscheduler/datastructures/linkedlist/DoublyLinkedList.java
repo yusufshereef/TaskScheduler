@@ -53,10 +53,10 @@ public class DoublyLinkedList {
             return;
         }
         int count = 1;
-        System.out.println("------------Task Name---------------"+"||----------------------deadline--------------");
+        System.out.println("------------Task Name---------------"+"||----------------------priority--------------"+"||------------------deadline--------------");
         while(temp!=null){
             Task task = temp.task;
-            System.out.println(count++ + ".        "+ task.getTaskName() + "                              "+task.getDeadline());
+            System.out.println(count++ + ".        "+ task.getTaskName() + "                                 "+task.getPriority()+"                                   "+task.getDeadline());
             temp=temp.next;
         }
         System.out.println();
