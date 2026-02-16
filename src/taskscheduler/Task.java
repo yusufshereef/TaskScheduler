@@ -27,4 +27,19 @@ public class Task {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         return deadline.format(formatter);
     }
+
+    public int getPriority(){
+        return this.priority;
+    }
+
+    public void setDeadline(String deadline){
+        this.deadline = LocalDateTime.parse(deadline, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+    }
+
+    public void setPriority(int priority){
+        if(priority==1 || priority==2)
+            this.priority = priority;
+        else
+            System.out.println("Invalid priority");
+    }
 }
