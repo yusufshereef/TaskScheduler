@@ -10,6 +10,7 @@ public class TaskManager {
         if(hashTable.get(taskName)==null){
             Task task = new Task(taskName, deadline, priority);
             DoublyLinkedList.DLLNode dllNode = dll.addNode(task);
+            System.out.println("successfully added task in dll");
             hashTable.put(task, dllNode);
         }else{
             System.out.println();
