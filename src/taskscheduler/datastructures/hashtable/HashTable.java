@@ -18,7 +18,7 @@ public class HashTable {
     }
 
     private HashNode[] hashTable;
-    private final int capacity = 29;
+    private final int capacity = 11;
 
     public HashTable(){
         hashTable = new HashNode[capacity];
@@ -27,12 +27,12 @@ public class HashTable {
     private int getHash(String key) {
         int hash = 0;
         for (int i = 0; i < key.length(); i++) {
-            hash = (31 * hash) + key.charAt(i);
+            hash = (7 * hash) + key.charAt(i);
         }
         // Even if 'hash' is negative due to overflow,
-        int index = hash % 29;
+        int index = hash % capacity;
         if (index < 0) {
-            index += 29;
+            index += capacity;
         }
         return index;
     }
@@ -44,6 +44,9 @@ public class HashTable {
         HashNode node = new HashNode(key, value, dllnode);
         node.next = head;
         hashTable[index] = node;
+        System.out.println("succesfully added task in hashtable");
+        System.out.println("index of key in hashtable: "+index);
+        System.out.println();
     }
 
     public Task get(String key){
