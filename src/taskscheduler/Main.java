@@ -17,6 +17,7 @@ public class Main {
             System.out.println("4. search task");
             System.out.println("5. update task details ");
             System.out.println("6. sort tasks by deadline");
+            System.out.println("7. sort tasks by priority");
             System.out.println("8. exit: ");
             System.out.print("Enter your choice: ");
             ch = sc.nextInt();
@@ -76,8 +77,14 @@ public class Main {
                             break;
                     }
                 case 6:
+                    System.out.println();
                     System.out.println("Tasks sorted by deadline");
                     tm.sortByDeadline();
+                    break;
+                case 7:
+                    System.out.println();
+                    System.out.println("Tasks sorted by priority");
+                    tm.sortByPriority();
                     break;
             }
         }while(ch!=8);
