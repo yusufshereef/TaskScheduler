@@ -2,6 +2,7 @@ package taskscheduler;
 
 import taskscheduler.datastructures.hashtable.HashTable;
 import taskscheduler.datastructures.linkedlist.DoublyLinkedList;
+import taskscheduler.datastructures.sorting.SortByDeadlineUsingMergeSort;
 
 public class TaskManager {
     private HashTable hashTable = new HashTable();
@@ -57,12 +58,18 @@ public class TaskManager {
         Task task = hashTable.get(taskName);
         if(task!=null){
             System.out.println("------------Task Name---------------"+"||----------------------priority--------------"+"||------------------deadline--------------");
-            System.out.println(task.getId()+ ".        "+ task.getTaskName() + "                                 "+task.getPriority()+"                                   "+task.getDeadline());
+            System.out.println(task.getId()+ ".        "+ task.getTaskName() + "                                 "+task.getPriority()+"                                   "+task.getFormattedDeadline());
         }else{
             System.out.println();
             System.out.println("NO SUCH TASK");
             System.out.println();
         }
+    }
+
+    public void sortByDeadline(){
+        Task[] tasks = dll.getTaskArray();
+        SortByDeadlineUsingMergeSort s = new SortByDeadlineUsingMergeSort(tasks);
+        s.displaySorted();
     }
 
 }
