@@ -23,10 +23,12 @@ public class Task {
         return taskName;
     }
     //
-    public String getDeadline() {
+    public String getFormattedDeadline() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         return deadline.format(formatter);
     }
+
+
 
     public int getPriority(){
         return this.priority;
@@ -34,6 +36,10 @@ public class Task {
 
     public void setDeadline(String deadline){
         this.deadline = LocalDateTime.parse(deadline, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+    }
+
+    public LocalDateTime getDeadline(){
+        return this.deadline;
     }
 
     public void setPriority(int priority){
