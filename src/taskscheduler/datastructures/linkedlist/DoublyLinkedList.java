@@ -15,6 +15,10 @@ public class DoublyLinkedList {
     private DLLNode head;
     private int size;
 
+    public int getSize(){
+        return this.size;
+    }
+
     public DLLNode addNode(Task task){
         DLLNode node = new DLLNode(task);
         if(head != null){
