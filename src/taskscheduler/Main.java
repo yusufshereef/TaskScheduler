@@ -16,7 +16,8 @@ public class Main {
             System.out.println("1. Create Task");
             System.out.println("2. Delete Task");
             System.out.println("3. display: ");
-            System.out.println("6. Sort by Beadline");
+            System.out.println("6. Sort by Deadline");
+            System.out.println("7. Sort by Priority");
             System.out.println("8. exit: ");
             System.out.print("Enter your choice: ");
             ch = sc.nextInt();
@@ -28,11 +29,11 @@ public class Main {
                     int count = sc.nextInt();
                     sc.nextLine();
                     while(count-- > 0){
-                        System.out.print("\nEnter Task: ");
+                       // System.out.print("\nEnter Task: ");
                         taskName = sc.nextLine();
-                        System.out.print("\nEnter deadline (yyyy-MM-dd HH:mm): ");
+                       // System.out.print("\nEnter deadline (yyyy-MM-dd HH:mm): ");
                         String deadline = sc.nextLine();
-                        System.out.print("\nEnter priority (1-HIGH, 2-LOW): ");
+                       // System.out.print("\nEnter priority (1-HIGH, 2-LOW): ");
                         int priority = sc.nextInt();
                         sc.nextLine();
                         tm.createTask(taskName, deadline, priority);
@@ -48,8 +49,11 @@ public class Main {
                     break;
                 case 6:
                     System.out.println("\n--- Sorted by Deadline ---");
-                    SortByDeadlineUsingMergeSort sorter = new SortByDeadlineUsingMergeSort(tm.getList().getTaskArray());
-                    sorter.displaySorted();
+                   tm.mergesort();
+                    break;
+                case 7:
+                    System.out.println("\n--- Sort by Priority ---");
+                    tm.quicksort();
                     break;
 
 
