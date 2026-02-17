@@ -50,6 +50,18 @@ public class DoublyLinkedList {
         size--;
     }
 
+    public Task[] getTaskArray(){
+        DLLNode temp = head;
+        Task[] tasks = new Task[size];
+        int count = 0;
+        while(temp!=null){
+            Task task = temp.task;
+            tasks[count++] = task;
+            temp = temp.next;
+        }
+        return tasks;
+    }
+
     public void display(){
         DLLNode temp = head;
         if(head == null){
