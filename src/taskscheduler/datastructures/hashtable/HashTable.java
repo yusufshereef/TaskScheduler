@@ -18,7 +18,7 @@ public class HashTable {
     }
 
     private HashNode[] hashTable;
-    private final int capacity = 11;
+    private final int capacity = 5;
 
     public HashTable(){
         hashTable = new HashNode[capacity];
