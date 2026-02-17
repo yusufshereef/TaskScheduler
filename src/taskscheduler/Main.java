@@ -14,7 +14,8 @@ public class Main {
             System.out.println("1. Create Task");
             System.out.println("2. Delete Task");
             System.out.println("3. display ");
-            System.out.println("4. update task details ");
+            System.out.println("4. search task");
+            System.out.println("5. update task details ");
             System.out.println("8. exit: ");
             System.out.print("Enter your choice: ");
             ch = sc.nextInt();
@@ -47,6 +48,11 @@ public class Main {
                     tm.displayTasks();
                     break;
                 case 4:
+                    System.out.print("search task by Name: ");
+                    taskName = sc.nextLine();
+                    tm.searchTask(taskName);
+                    break;
+                case 5:
                     System.out.println("1. update task deadline");
                     System.out.println("2. update task priority");
                     System.out.print("enter choice: ");

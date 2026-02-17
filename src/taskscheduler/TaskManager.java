@@ -35,7 +35,9 @@ public class TaskManager {
     }
 //
     public void displayTasks(){
+        System.out.println();
         dll.display();
+        System.out.println();
     }
 
     public void updateTaskDeadline(String taskName, String deadline){
@@ -48,6 +50,18 @@ public class TaskManager {
         hashTable.updateTaskPriority(taskName, priority);
         System.out.println("Task successfully updated");
         System.out.println();
+    }
+
+    public void searchTask(String taskName){
+        Task task = hashTable.get(taskName);
+        if(task!=null){
+            System.out.println("------------Task Name---------------"+"||----------------------priority--------------"+"||------------------deadline--------------");
+            System.out.println(task.getId()+ ".        "+ task.getTaskName() + "                                 "+task.getPriority()+"                                   "+task.getDeadline());
+        }else{
+            System.out.println();
+            System.out.println("NO SUCH TASK");
+            System.out.println();
+        }
     }
 
 }
