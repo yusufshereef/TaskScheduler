@@ -7,17 +7,11 @@ public class SortByDeadlineUsingMergeSort {
 
     private Task[] taskArray;
 
-    public SortByDeadlineUsingMergeSort(DoublyLinkedList list) {
-        int size = list.getSize();
-        taskArray = new Task[size];
+    public SortByDeadlineUsingMergeSort(Task[] taskArray) {
+        this.taskArray = taskArray;
 
-        for (int i = 0; i < size; i++) {
-            taskArray[i] = list.getAt(i);
-        }
+            mergeSort(0, taskArray.length - 1);
 
-        if (size > 0) {
-            mergeSort(0, size - 1);
-        }
     }
 
     private void mergeSort(int left, int right) {
