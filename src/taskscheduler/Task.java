@@ -42,4 +42,8 @@ public class Task {
         else
             System.out.println("Invalid priority");
     }
+
+    public int getId(){
+        return this.id;
+    }
 }
