@@ -54,9 +54,15 @@ public class SortByDeadlineUsingMergeSort {
     }
 
     public void displaySorted() {
-        System.out.println("------------Task Name---------------"+"||----------------------priority--------------"+"||------------------deadline--------------");
+        String format = "%-5s | %-20s | %-10s | %-15s%n";
+        System.out.printf(format, "ID", "Task Name", "Priority", "Deadline");
+        System.out.println("------------------------------------------------------------");
         for (Task task : taskArray) {
-            System.out.println(task.getId() + ".        "+ task.getTaskName() + "                                 "+task.getPriority()+"                                   "+task.getFormattedDeadline());
+            System.out.printf(format,
+                    task.getId(),
+                    task.getTaskName(),
+                    task.getPriority(),
+                    task.getFormattedDeadline());
         }
     }
 }
