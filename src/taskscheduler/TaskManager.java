@@ -3,6 +3,8 @@ package taskscheduler;
 import taskscheduler.datastructures.hashtable.HashTable;
 import taskscheduler.datastructures.linkedlist.DoublyLinkedList;
 import taskscheduler.datastructures.linkedlist.DoublyTaskList;
+import taskscheduler.datastructures.sorting.SortByDeadlineUsingMergeSort;
+import taskscheduler.datastructures.sorting.SortByPriorityUsingQuickSort;
 
 
 public class TaskManager {
@@ -39,5 +41,16 @@ public class TaskManager {
     public DoublyLinkedList getList() {
         return dll;
     }
+
+    public void mergesort(){
+        SortByDeadlineUsingMergeSort sorter = new SortByDeadlineUsingMergeSort(this.getList().getTaskArray());
+        sorter.displaySorted();
+    }
+
+    public void quicksort(){
+        SortByPriorityUsingQuickSort sorter = new SortByPriorityUsingQuickSort(getList().getTaskArray());
+        sorter.displaySorted();
+    }
+
 
 }
