@@ -41,6 +41,7 @@ public class Main {
                         tm.createTask(taskName, deadline, priority);
                     }
                     break;
+                    
                 case 2:
                     System.out.print("enter taskName to be deleted: ");
                     taskName = sc.nextLine();
