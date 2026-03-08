@@ -10,6 +10,7 @@ import taskscheduler.datastructures.sorting.SortByPriorityUsingQuickSort;
 public class TaskManager {
     private HashTable hashTable = new HashTable();
     DoublyLinkedList dll = new DoublyLinkedList();
+
     public void createTask(String taskName, String deadline, int priority){
         if(hashTable.get(taskName)==null){
             Task task = new Task(taskName, deadline, priority);
