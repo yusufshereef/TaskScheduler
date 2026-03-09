@@ -5,6 +5,7 @@ import taskscheduler.datastructures.linkedlist.DoublyLinkedList;
 import taskscheduler.datastructures.linkedlist.DoublyTaskList;
 import taskscheduler.datastructures.sorting.SortByDeadlineUsingMergeSort;
 import taskscheduler.datastructures.sorting.SortByPriorityUsingQuickSort;
+import taskscheduler.datastructures.stacks.Stack_Completion;
 
 
 public class TaskManager {
@@ -22,13 +23,12 @@ public class TaskManager {
     }
 
     public void deleteTask(String taskName){
-        if(hashTable.get(taskName)!=null){
+        Task task = hashTable.get(taskName);
+        if(task != null){
+            undoStack.push(task);   // push deleted task into stack
             DoublyLinkedList.DLLNode dllNode = hashTable.getDLLNode(taskName);
-            System.out.println("get dll node from hash table success");
             dll.deleteNode(dllNode);
-            System.out.println("delete from dll success");
             hashTable.delete(taskName);
-            System.out.println("delete from hash table success");
             System.out.println("Task deleted");
         }else{
             System.out.println("No such Task");
@@ -51,6 +51,51 @@ public class TaskManager {
     public void quicksort(){
         SortByPriorityUsingQuickSort sorter = new SortByPriorityUsingQuickSort(getList().getTaskArray());
         sorter.displaySorted();
+    }
+
+    //task by id se delete
+    public void deleteTaskById(int id) {
+        for(int i = 0; i < dll.getSize(); i++) {
+            Task task = dll.getAt(i);
+            if(task.getId() == id) {
+                String taskName = task.getTaskName();
+                deleteTask(taskName);
+                return;
+            }
+        }
+
+        System.out.println("Task ID not found");
+    }
+
+    //stacks
+
+    Stack_Completion undoStack = new Stack_Completion();
+    Stack_Completion redoStack = new Stack_Completion();
+
+    public void undoDelete(){
+        Task task = undoStack.pop();
+        if(task == null){
+            System.out.println("Nothing to undo");
+            return;
+        }
+        DoublyLinkedList.DLLNode node = dll.addNode(task);
+        hashTable.put(task,node);
+        redoStack.push(task);
+        System.out.println("Undo successful. Task restored: " + task.getTaskName());
+    }
+
+    public void redoDelete(){
+        Task task = redoStack.pop();
+        if(task == null){
+            System.out.println("Nothing to redo");
+            return;
+        }
+        deleteTask(task.getTaskName());
+        System.out.println("Redo successful.");
+    }
+
+    public void showRecentlyDeleted(){
+        undoStack.displayRecent();
     }
 
 

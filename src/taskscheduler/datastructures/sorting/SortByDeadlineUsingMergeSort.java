@@ -41,9 +41,7 @@ public class SortByDeadlineUsingMergeSort {
         int i = 0, j = 0, k = left;
 
         while (i < n1 && j < n2) {
-            if (leftArray[i].getDeadline()
-                    .isBefore(rightArray[j].getDeadline())) {
-
+            if (leftArray[i].getDeadline().isBefore(rightArray[j].getDeadline())) {
                 taskArray[k++] = leftArray[i++];
             } else {
                 taskArray[k++] = rightArray[j++];
@@ -56,10 +54,7 @@ public class SortByDeadlineUsingMergeSort {
 
     public void displaySorted() {
         for (Task task : taskArray) {
-            System.out.println(
-                    "ID: " + task.getId() +
-                            " | Name: " + task.getTaskName() +
-                            " | Deadline: " + task.getFormattedDeadline()
+            System.out.println("ID: " + task.getId() + " | Name: " + task.getTaskName() + " | Deadline: " + task.getFormattedDeadline()
             );
         }
     }
