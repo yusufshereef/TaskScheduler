@@ -28,6 +28,7 @@ public class Main {
 
 
 
+
             int priority;
             switch (ch){
                 case 1:
