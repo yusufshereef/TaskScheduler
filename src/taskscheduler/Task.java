@@ -72,6 +72,7 @@ public class Task {
 
     public void markPending() {
         status = 0;
+
     }
     public int getPriority() {
         return priority;
