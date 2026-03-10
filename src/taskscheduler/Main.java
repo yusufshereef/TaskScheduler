@@ -9,6 +9,7 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         TaskManager tm = new TaskManager();
         int ch = 0;
+        tm.initalize();
         do{
             System.out.println("=================================");
             System.out.println("         TASK SCHEDULER          ");
@@ -19,10 +20,11 @@ public class Main {
             System.out.println("4. Delete Task By ID");
             System.out.println("6. Sort by Deadline");
             System.out.println("7. Sort by Priority");
+            System.out.println("8. save tasks to file: ");
             System.out.println("9. Undo Delete");
             System.out.println("10. Redo Delete");
             System.out.println("11. Recently Deleted Tasks");
-            System.out.println("8. Exit");
+            System.out.println("14. Exit");
             System.out.print("Enter your choice: ");
             ch = sc.nextInt();
             sc.nextLine();
@@ -76,10 +78,13 @@ public class Main {
                 case 11:
                     tm.showRecentlyDeleted();
                     break;
-
+                case 8:
+                    tm.save();
+                    break;
 
 
             }
-        }while(ch!=8);
+        }while(ch!=14);
+        tm.save();
     }
 }

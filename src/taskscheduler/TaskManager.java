@@ -6,11 +6,26 @@ import taskscheduler.datastructures.linkedlist.DoublyTaskList;
 import taskscheduler.datastructures.sorting.SortByDeadlineUsingMergeSort;
 import taskscheduler.datastructures.sorting.SortByPriorityUsingQuickSort;
 import taskscheduler.datastructures.stacks.Stack_Completion;
+import taskscheduler.filehandling.FileStorage;
 
 
 public class TaskManager {
     private HashTable hashTable = new HashTable();
-    DoublyLinkedList dll = new DoublyLinkedList();
+    //file
+
+    private DoublyLinkedList dll = new DoublyLinkedList();
+    private FileStorage fileStorage = new FileStorage();
+
+    public void initalize(){
+        fileStorage.loadDLLFromFile(dll, hashTable);
+    }
+
+    public void save(){
+        fileStorage.writeToFile(dll);
+    }
+    //file code completed
+
+   // DoublyLinkedList dll = new DoublyLinkedList();
 
     public void createTask(String taskName, String deadline, int priority){
         if(hashTable.get(taskName)==null){
