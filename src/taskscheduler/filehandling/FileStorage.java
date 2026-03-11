@@ -65,7 +65,7 @@ public class FileStorage {
 
             System.out.println(taskDLL.getSize() + " tasks loaded from file");
 
-        }catch (IOException e){
+        }catch (IOException e) {
             System.out.println("Failed to load file: "+e.getMessage());
         }
     }
@@ -80,5 +80,4 @@ public class FileStorage {
         Task task = new Task(id, taskName, deadline, priority, completed);
         return task;
     }
-
 }
