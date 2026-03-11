@@ -64,11 +64,11 @@ public class HashTable {
     }
 
     //
-    public DoublyLinkedList.DLLNode getDLLNode(String key){
-        int index = getHash(key);
+    public DoublyLinkedList.DLLNode getDLLNode(String deleteKey){
+        int index = getHash(deleteKey);
         HashNode head = hashTable[index];
         HashNode temp = head;
-        while(!temp.key.equals(key)){
+        while(!temp.key.equals(deleteKey)){
             temp = temp.next;
         }
         DoublyLinkedList.DLLNode dllNode = temp.dllNode;
