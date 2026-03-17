@@ -22,7 +22,7 @@ public class Main {
             System.out.println("7. Sort by Priority");
             System.out.println("8. save tasks to file: ");
             System.out.println("9. Undo Delete");
-            System.out.println("10. Redo Delete");
+           // System.out.println("10. Redo Delete");
             System.out.println("11. Recently Deleted Tasks");
             System.out.println("14. Exit");
             System.out.print("Enter your choice: ");

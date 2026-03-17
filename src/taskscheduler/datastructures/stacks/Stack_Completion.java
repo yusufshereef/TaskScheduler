@@ -46,8 +46,7 @@ public class Stack_Completion {
         temp.task.markPending();
 
         System.out.println("Undo successful. Task restored:");
-        System.out.println("Task ID: " + temp.task.getId() +
-                " | Name: " + temp.task.getTaskName());
+        System.out.println("Task ID: " + temp.task.getId() + " | Name: " + temp.task.getTaskName());
     }
 
     // Display recently completed tasks
@@ -61,8 +60,7 @@ public class Stack_Completion {
 
         System.out.println("Recently Completed Tasks (Most Recent First):");
         while (temp != null) {
-            System.out.println("Task ID: " + temp.task.getId() +
-                    " | Name: " + temp.task.getTaskName());
+            System.out.println("Task ID: " + temp.task.getId() + " | Name: " + temp.task.getTaskName());
             temp = temp.next;
         }
     }
