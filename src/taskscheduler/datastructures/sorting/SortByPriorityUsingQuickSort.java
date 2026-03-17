@@ -43,15 +43,16 @@ public class SortByPriorityUsingQuickSort {
     }
 
     public void displaySorted() {
-        String format = "%-5s | %-20s | %-10s | %-15s%n";
-        System.out.printf(format, "ID", "Task Name", "Priority", "Deadline");
-        System.out.println("------------------------------------------------------------");
+        String format = "%-5s | %-20s | %-10s | %-16s | %-16s%n";
+        System.out.printf(format, "ID", "Task Name", "Priority", "Deadline", "Task Time");
+        System.out.println("--------------------------------------------------------------------------------");
         for (int i = 0; i < taskArray.length; i++) {
             System.out.printf(format,
                     taskArray[i].getId(),
                     taskArray[i].getTaskName(),
                     taskArray[i].getPriority(),
-                    taskArray[i].getFormattedDeadline());
+                    taskArray[i].getFormattedDeadline(),
+                    taskArray[i].getFormattedTaskTime());
         }
     }
 }
