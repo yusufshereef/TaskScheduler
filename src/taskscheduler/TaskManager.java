@@ -4,12 +4,14 @@ import taskscheduler.datastructures.hashtable.HashTable;
 import taskscheduler.datastructures.linkedlist.DoublyLinkedList;
 import taskscheduler.datastructures.sorting.SortByDeadlineUsingMergeSort;
 import taskscheduler.datastructures.sorting.SortByPriorityUsingQuickSort;
+import taskscheduler.datastructures.stack.Stack;
 import taskscheduler.filehandling.FileStorage;
 
 public class TaskManager {
     private HashTable hashTable = new HashTable();
     private DoublyLinkedList dll = new DoublyLinkedList();
     private FileStorage fileStorage = new FileStorage();
+    private Stack<Action> undoStack = new Stack<>();
 
     public void initalize(){
         fileStorage.loadDLLFromFile(dll, hashTable);
@@ -26,6 +28,7 @@ public class TaskManager {
             System.out.println();
             System.out.println("successfully added task in dll");
             hashTable.put(task, dllNode);
+            undoStack.push(new Action(Action.Type.CREATE, task));
             System.out.println();
         }else{
             System.out.println();
@@ -36,6 +39,7 @@ public class TaskManager {
 
     public void deleteTask(String taskName){
         if(hashTable.get(taskName)!=null){
+            Task task = hashTable.get(taskName);
             DoublyLinkedList.DLLNode dllNode = hashTable.getDLLNode(taskName);
             System.out.println();
             System.out.println("get dll node from hash table success");
@@ -44,6 +48,7 @@ public class TaskManager {
             hashTable.delete(taskName);
             System.out.println("delete from hash table success");
             System.out.println("Task deleted");
+            undoStack.push(new Action(Action.Type.DELETE, task));
             System.out.println();
         }else{
             System.out.println();
@@ -59,17 +64,27 @@ public class TaskManager {
     }
 
     public void updateTaskDeadline(String taskName, String deadline){
-        hashTable.updateTaskDeadline(taskName, deadline);
-        System.out.println();
-        System.out.println("Task successfully updated");
-        System.out.println();
+        Task task = hashTable.get(taskName.trim().toLowerCase());
+        if(task != null){
+            String oldDeadline = task.getFormattedDeadline();
+            hashTable.updateTaskDeadline(taskName, deadline);
+            undoStack.push(new Action(Action.Type.UPDATE_DEADLINE, taskName.trim().toLowerCase(), oldDeadline));
+            System.out.println();
+            System.out.println("Task successfully updated");
+            System.out.println();
+        }
     }
 
     public void updateTaskPriority(String taskName, int priority){
-        hashTable.updateTaskPriority(taskName, priority);
-        System.out.println();
-        System.out.println("Task successfully updated");
-        System.out.println();
+        Task task = hashTable.get(taskName.trim().toLowerCase());
+        if(task != null){
+            String oldPriority = String.valueOf(task.getPriority());
+            hashTable.updateTaskPriority(taskName, priority);
+            undoStack.push(new Action(Action.Type.UPDATE_PRIORITY, taskName.trim().toLowerCase(), oldPriority));
+            System.out.println();
+            System.out.println("Task successfully updated");
+            System.out.println();
+        }
     }
 
     public void searchTask(String taskName){
@@ -102,6 +117,49 @@ public class TaskManager {
         Task[] tasks = dll.getTaskArray();
         SortByPriorityUsingQuickSort s = new SortByPriorityUsingQuickSort(tasks);
         s.displaySorted();
+    }
+
+    public void undo(){
+        if(undoStack.isEmpty()){
+            System.out.println();
+            System.out.println("Nothing to undo.");
+            System.out.println();
+            return;
+        }
+        Action action = undoStack.pop();
+        switch(action.getType()){
+            case CREATE:
+                Task createdTask = action.getTask();
+                DoublyLinkedList.DLLNode node = hashTable.getDLLNode(createdTask.getTaskName());
+                dll.deleteNode(node);
+                hashTable.delete(createdTask.getTaskName());
+                System.out.println();
+                System.out.println("Undo: removed task '" + createdTask.getTaskName() + "'");
+                System.out.println();
+                break;
+            case DELETE:
+                Task deletedTask = action.getTask();
+                if(hashTable.get(deletedTask.getTaskName()) == null){
+                    DoublyLinkedList.DLLNode dllNode = dll.addNode(deletedTask);
+                    hashTable.put(deletedTask, dllNode);
+                    System.out.println();
+                    System.out.println("Undo: restored task '" + deletedTask.getTaskName() + "'");
+                    System.out.println();
+                }
+                break;
+            case UPDATE_DEADLINE:
+                hashTable.updateTaskDeadline(action.getTaskName(), action.getOldValue());
+                System.out.println();
+                System.out.println("Undo: restored deadline for task '" + action.getTaskName() + "'");
+                System.out.println();
+                break;
+            case UPDATE_PRIORITY:
+                hashTable.updateTaskPriority(action.getTaskName(), Integer.parseInt(action.getOldValue()));
+                System.out.println();
+                System.out.println("Undo: restored priority for task '" + action.getTaskName() + "'");
+                System.out.println();
+                break;
+        }
     }
 
 }

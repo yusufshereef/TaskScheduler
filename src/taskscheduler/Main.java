@@ -21,6 +21,7 @@ public class Main {
             System.out.println("7. sort tasks by priority");
             System.out.println("8. save tasks to file: ");
             System.out.println("9. exit");
+            System.out.println("10. undo last action");
             System.out.print("Enter your choice: ");
             ch = sc.nextInt();
             sc.nextLine();
@@ -90,6 +91,9 @@ public class Main {
                     break;
                 case 8:
                     tm.save();
+                    break;
+                case 10:
+                    tm.undo();
                     break;
             }
         }while(ch!=9);
