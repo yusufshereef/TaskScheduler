@@ -69,16 +69,17 @@ public class DoublyLinkedList {
             return;
         }
         int count = 1;
-        String format = "%-5s | %-20s | %-10s | %-15s%n";
-        System.out.printf(format, "ID", "Task Name", "Priority", "Deadline");
-        System.out.println("------------------------------------------------------------");
+        String format = "%-5s | %-20s | %-10s | %-16s | %-16s%n";
+        System.out.printf(format, "ID", "Task Name", "Priority", "Deadline", "Task Time");
+        System.out.println("--------------------------------------------------------------------------------");
         while(temp!=null){
             Task task = temp.task;
             System.out.printf(format,
                     task.getId(),
                     task.getTaskName(),
                     task.getPriority(),
-                    task.getFormattedDeadline());
+                    task.getFormattedDeadline(),
+                    task.getFormattedTaskTime());
             temp=temp.next;
         }
         System.out.println();

@@ -20,6 +20,10 @@ public class HashTable {
     private HashNode[] hashTable;
     private final int capacity = 7;
 
+    private String normalizeKey(String key){
+        return key.trim().toLowerCase();
+    }
+
     public HashTable(){
         hashTable = new HashNode[capacity];
     }
@@ -38,7 +42,7 @@ public class HashTable {
     }
 
     public void put(Task value, DoublyLinkedList.DLLNode dllnode){
-        String key = value.getTaskName();
+        String key = normalizeKey(value.getTaskName());
         int index = getHash(key);
         HashNode head = hashTable[index];
         HashNode node = new HashNode(key, value, dllnode);
@@ -50,7 +54,7 @@ public class HashTable {
     }
 
     public Task get(String key){
-        key = key.trim().toLowerCase();
+        key = normalizeKey(key);
         int index = getHash(key);
         HashNode head = hashTable[index];
         HashNode temp = head;
@@ -65,17 +69,20 @@ public class HashTable {
 
     //
     public DoublyLinkedList.DLLNode getDLLNode(String deleteKey){
+        deleteKey = normalizeKey(deleteKey);
         int index = getHash(deleteKey);
         HashNode head = hashTable[index];
         HashNode temp = head;
-        while(!temp.key.equals(deleteKey)){
+        while(temp != null && !temp.key.equals(deleteKey)){
             temp = temp.next;
         }
+        if(temp == null) return null;
         DoublyLinkedList.DLLNode dllNode = temp.dllNode;
         return dllNode;
     }
 
     public Task delete(String key){
+        key = normalizeKey(key);
         int index = getHash(key);
         HashNode head = hashTable[index];
         if(head == null) return null;
@@ -84,29 +91,42 @@ public class HashTable {
             return head.value;
         }
         HashNode temp = head;
-        while(!temp.next.key.equals(key)){
+        while(temp.next != null && !temp.next.key.equals(key)){
             temp = temp.next;
         }
+        if(temp.next == null) return null;
         Task task = temp.next.value;
         temp.next = temp.next.next;
         return task;
     }
 
-    public void updateTaskDeadline(String taskName, String deadline){
+    public boolean updateTaskDeadline(String taskName, String deadline){
         Task task = get(taskName);
         if(task != null){
             task.setDeadline(deadline);
+            return true;
         }else{
-            System.out.println("No such task");
+            return false;
         }
     }
 
-    public void updateTaskPriority(String taskName, int priority){
+    public boolean updateTaskPriority(String taskName, int priority){
         Task task = get(taskName);
         if(task != null){
             task.setPriority(priority);
+            return true;
         }else{
-            System.out.println("No such task");
+            return false;
+        }
+    }
+
+    public boolean updateTaskTime(String taskName, String taskTime){
+        Task task = get(taskName);
+        if(task != null){
+            task.setTaskTime(taskTime);
+            return true;
+        }else{
+            return false;
         }
     }
 

@@ -16,7 +16,7 @@ public class FileStorage {
     public void writeToFile(DoublyLinkedList taskDLL){
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))){
 
-            writer.write("ID,Task,deadline,Priority,Completed");
+            writer.write("ID,Task,deadline,TaskTime,Priority,Completed");
             writer.newLine();
 
             Task[] tasks = taskDLL.getTaskArray();
@@ -35,7 +35,7 @@ public class FileStorage {
     }
 
     private String taskEntry(Task task){
-        String entry = task.getId()+","+task.getTaskName()+","+task.getFormattedDeadline()+","+task.getPriority()+","+task.isCompleted();
+        String entry = task.getId()+","+task.getTaskName()+","+task.getFormattedDeadline()+","+task.getFormattedTaskTime()+","+task.getPriority()+","+task.isCompleted();
         return entry;
     }
 
@@ -53,6 +53,11 @@ public class FileStorage {
                     firstLine = false;
                     continue;
                 }
+
+                if(line.trim().isEmpty()){
+                    continue;
+                }
+
                 Task task = parseTask(line);
                 if(task.getId()>maxId) maxId = task.getId();
                 DoublyLinkedList.DLLNode dllNode = taskDLL.addNode(task);
@@ -75,9 +80,22 @@ public class FileStorage {
         int id = Integer.parseInt(fields[0]);
         String taskName = fields[1];
         LocalDateTime deadline = LocalDateTime.parse(fields[2], formatter);
-        int priority = Integer.parseInt(fields[3]);
-        boolean completed = Boolean.parseBoolean(fields[4]);
-        Task task = new Task(id, taskName, deadline, priority, completed);
+        LocalDateTime taskTime;
+        int priority;
+        boolean completed;
+
+        // Backward compatibility for older CSV rows: ID,Task,deadline,Priority,Completed
+        if(fields.length == 5){
+            taskTime = deadline;
+            priority = Integer.parseInt(fields[3]);
+            completed = Boolean.parseBoolean(fields[4]);
+        }else{
+            taskTime = LocalDateTime.parse(fields[3], formatter);
+            priority = Integer.parseInt(fields[4]);
+            completed = Boolean.parseBoolean(fields[5]);
+        }
+
+        Task task = new Task(id, taskName, deadline, taskTime, priority, completed);
         return task;
     }
 }
