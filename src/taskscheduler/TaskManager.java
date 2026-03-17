@@ -2,14 +2,18 @@ package taskscheduler;
 
 import taskscheduler.datastructures.hashtable.HashTable;
 import taskscheduler.datastructures.linkedlist.DoublyLinkedList;
+import taskscheduler.datastructures.queue.TaskQueue;
 import taskscheduler.datastructures.sorting.SortByDeadlineUsingMergeSort;
 import taskscheduler.datastructures.sorting.SortByPriorityUsingQuickSort;
+import taskscheduler.datastructures.stack.TaskStack;
 import taskscheduler.filehandling.FileStorage;
 
 public class TaskManager {
     private HashTable hashTable = new HashTable();
     private DoublyLinkedList dll = new DoublyLinkedList();
     private FileStorage fileStorage = new FileStorage();
+    private TaskQueue taskQueue = new TaskQueue();
+    private TaskStack completedStack = new TaskStack();
 
     public void initalize(){
         fileStorage.loadDLLFromFile(dll, hashTable);
@@ -102,6 +106,103 @@ public class TaskManager {
         Task[] tasks = dll.getTaskArray();
         SortByPriorityUsingQuickSort s = new SortByPriorityUsingQuickSort(tasks);
         s.displaySorted();
+    }
+
+    /** Schedule an existing task for execution by adding it to the FIFO queue. */
+    public void scheduleTask(String taskName) {
+        Task task = hashTable.get(taskName);
+        if (task == null) {
+            System.out.println();
+            System.out.println("No such task found.");
+            System.out.println();
+            return;
+        }
+        if (task.isCompleted()) {
+            System.out.println();
+            System.out.println("Task is already completed and cannot be scheduled.");
+            System.out.println();
+            return;
+        }
+        taskQueue.enqueue(task);
+        System.out.println();
+        System.out.println("Task \"" + task.getTaskName() + "\" added to execution queue. Queue size: " + taskQueue.getSize());
+        System.out.println();
+    }
+
+    /**
+     * Execute the next task from the queue (FIFO order).
+     * The task is marked as completed and pushed onto the completed-tasks stack.
+     */
+    public void executeNextTask() {
+        Task task = taskQueue.dequeue();
+        if (task == null) {
+            System.out.println();
+            System.out.println("Execution queue is empty. No tasks to execute.");
+            System.out.println();
+            return;
+        }
+        task.setCompleted(true);
+        completedStack.push(task);
+        System.out.println();
+        System.out.println("Executed task: \"" + task.getTaskName() + "\" (ID: " + task.getId() + ")");
+        System.out.println("Remaining tasks in queue: " + taskQueue.getSize());
+        System.out.println();
+    }
+
+    /** Display all tasks currently waiting in the execution queue. */
+    public void displayQueue() {
+        System.out.println();
+        System.out.println("--- Execution Queue (FIFO) ---");
+        taskQueue.display();
+        System.out.println();
+    }
+
+    /** Mark an existing task as completed and push it onto the completed-tasks stack. */
+    public void markTaskCompleted(String taskName) {
+        Task task = hashTable.get(taskName);
+        if (task == null) {
+            System.out.println();
+            System.out.println("No such task found.");
+            System.out.println();
+            return;
+        }
+        if (task.isCompleted()) {
+            System.out.println();
+            System.out.println("Task is already marked as completed.");
+            System.out.println();
+            return;
+        }
+        task.setCompleted(true);
+        completedStack.push(task);
+        System.out.println();
+        System.out.println("Task \"" + task.getTaskName() + "\" marked as completed.");
+        System.out.println();
+    }
+
+    /**
+     * Undo the last task completion by popping from the completed-tasks stack
+     * and restoring the task to an active (not completed) state.
+     */
+    public void undoLastCompletion() {
+        Task task = completedStack.pop();
+        if (task == null) {
+            System.out.println();
+            System.out.println("Nothing to undo. No completed tasks in history.");
+            System.out.println();
+            return;
+        }
+        task.setCompleted(false);
+        System.out.println();
+        System.out.println("Undo successful. Task \"" + task.getTaskName() + "\" is now active again.");
+        System.out.println();
+    }
+
+    /** Display all recently completed tasks (most recent first). */
+    public void displayCompletedTasks() {
+        System.out.println();
+        System.out.println("--- Completed Tasks History (most recent first) ---");
+        completedStack.display();
+        System.out.println();
     }
 
 }

@@ -6,21 +6,29 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         TaskManager tm = new TaskManager();
-        int ch = 0;
+        int ch = -1;
         tm.initalize();
         do{
             System.out.println("=================================");
             System.out.println("         TASK SCHEDULER          ");
             System.out.println("=================================");
-            System.out.println("1. Create Task");
-            System.out.println("2. Delete Task");
-            System.out.println("3. display ");
-            System.out.println("4. search task");
-            System.out.println("5. update task details ");
-            System.out.println("6. sort tasks by deadline");
-            System.out.println("7. sort tasks by priority");
-            System.out.println("8. save tasks to file: ");
-            System.out.println("9. exit");
+            System.out.println("1.  Create Task");
+            System.out.println("2.  Delete Task");
+            System.out.println("3.  Display Tasks");
+            System.out.println("4.  Search Task");
+            System.out.println("5.  Update Task Details");
+            System.out.println("6.  Sort Tasks by Deadline");
+            System.out.println("7.  Sort Tasks by Priority");
+            System.out.println("8.  Save Tasks to File");
+            System.out.println("--- Queue Operations ---");
+            System.out.println("9.  Schedule Task for Execution (Enqueue)");
+            System.out.println("10. Execute Next Scheduled Task (Dequeue)");
+            System.out.println("11. View Execution Queue");
+            System.out.println("--- Stack Operations ---");
+            System.out.println("12. Mark Task as Completed");
+            System.out.println("13. Undo Last Task Completion");
+            System.out.println("14. View Completed Tasks History");
+            System.out.println("0.  Exit");
             System.out.print("Enter your choice: ");
             ch = sc.nextInt();
             sc.nextLine();
@@ -78,6 +86,7 @@ public class Main {
                             tm.updateTaskPriority(taskName, priority);
                             break;
                     }
+                    break;
                 case 6:
                     System.out.println();
                     System.out.println("Tasks sorted by deadline");
@@ -91,8 +100,34 @@ public class Main {
                 case 8:
                     tm.save();
                     break;
+                case 9:
+                    System.out.print("Enter task name to schedule for execution: ");
+                    taskName = sc.nextLine();
+                    tm.scheduleTask(taskName);
+                    break;
+                case 10:
+                    tm.executeNextTask();
+                    break;
+                case 11:
+                    tm.displayQueue();
+                    break;
+                case 12:
+                    System.out.print("Enter task name to mark as completed: ");
+                    taskName = sc.nextLine();
+                    tm.markTaskCompleted(taskName);
+                    break;
+                case 13:
+                    tm.undoLastCompletion();
+                    break;
+                case 14:
+                    tm.displayCompletedTasks();
+                    break;
+                case 0:
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
             }
-        }while(ch!=9);
+        }while(ch!=0);
         tm.save();
     }
 }
