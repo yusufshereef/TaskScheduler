@@ -5,6 +5,7 @@ import taskscheduler.datastructures.linkedlist.DoublyLinkedList;
 import taskscheduler.datastructures.sorting.SortByDeadlineUsingMergeSort;
 import taskscheduler.datastructures.sorting.SortByPriorityUsingQuickSort;
 import taskscheduler.datastructures.stack.Stack;
+import taskscheduler.datastructures.queue.Queue;
 import taskscheduler.filehandling.FileStorage;
 
 public class TaskManager {
@@ -12,6 +13,7 @@ public class TaskManager {
     private DoublyLinkedList dll = new DoublyLinkedList();
     private FileStorage fileStorage = new FileStorage();
     private Stack<Action> undoStack = new Stack<>();
+    private Queue<Task> executionQueue = new Queue<>();
 
     public void initalize(){
         fileStorage.loadDLLFromFile(dll, hashTable);
@@ -160,6 +162,72 @@ public class TaskManager {
                 System.out.println();
                 break;
         }
+    }
+
+    public void enqueueTask(String taskName){
+        Task task = hashTable.get(taskName.trim().toLowerCase());
+        if(task == null){
+            System.out.println();
+            System.out.println("No such task.");
+            System.out.println();
+            return;
+        }
+        if(task.isCompleted()){
+            System.out.println();
+            System.out.println("Task '" + task.getTaskName() + "' is already completed.");
+            System.out.println();
+            return;
+        }
+        if(executionQueue.contains(task)){
+            System.out.println();
+            System.out.println("Task '" + task.getTaskName() + "' is already in the execution queue.");
+            System.out.println();
+            return;
+        }
+        executionQueue.enqueue(task);
+        System.out.println();
+        System.out.println("Task '" + task.getTaskName() + "' added to execution queue.");
+        System.out.println();
+    }
+
+    public void processNextTask(){
+        if(executionQueue.isEmpty()){
+            System.out.println();
+            System.out.println("Execution queue is empty. No tasks to process.");
+            System.out.println();
+            return;
+        }
+        Task task = executionQueue.dequeue();
+        task.setCompleted(true);
+        System.out.println();
+        System.out.println("Processing task: '" + task.getTaskName() + "'");
+        System.out.println("Task marked as completed.");
+        System.out.println();
+    }
+
+    public void displayExecutionQueue(){
+        if(executionQueue.isEmpty()){
+            System.out.println();
+            System.out.println("Execution queue is empty.");
+            System.out.println();
+            return;
+        }
+        System.out.println();
+        System.out.println("Execution Queue (FIFO - next to process is at the top):");
+        String format = "%-5s | %-20s | %-10s | %-15s | %-10s%n";
+        System.out.printf(format, "ID", "Task Name", "Priority", "Deadline", "Completed");
+        System.out.println("------------------------------------------------------------------------");
+        Object[] tasks = executionQueue.toArray();
+        for(Object obj : tasks){
+            Task task = (Task) obj;
+            System.out.printf(format,
+                    task.getId(),
+                    task.getTaskName(),
+                    task.getPriority(),
+                    task.getFormattedDeadline(),
+                    task.isCompleted());
+        }
+        System.out.println();
     }
 
 }

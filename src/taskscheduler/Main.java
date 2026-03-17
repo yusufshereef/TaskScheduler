@@ -22,6 +22,9 @@ public class Main {
             System.out.println("8. save tasks to file: ");
             System.out.println("9. exit");
             System.out.println("10. undo last action");
+            System.out.println("11. enqueue task for execution");
+            System.out.println("12. process next task in queue");
+            System.out.println("13. view execution queue");
             System.out.print("Enter your choice: ");
             ch = sc.nextInt();
             sc.nextLine();
@@ -94,6 +97,17 @@ public class Main {
                     break;
                 case 10:
                     tm.undo();
+                    break;
+                case 11:
+                    System.out.print("enter task name to enqueue: ");
+                    taskName = sc.nextLine();
+                    tm.enqueueTask(taskName);
+                    break;
+                case 12:
+                    tm.processNextTask();
+                    break;
+                case 13:
+                    tm.displayExecutionQueue();
                     break;
             }
         }while(ch!=9);
