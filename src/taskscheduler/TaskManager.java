@@ -6,6 +6,13 @@ import taskscheduler.datastructures.sorting.SortByDeadlineUsingMergeSort;
 import taskscheduler.datastructures.sorting.SortByPriorityUsingQuickSort;
 import taskscheduler.filehandling.FileStorage;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.LinkedHashMap;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 public class TaskManager {
     private HashTable hashTable = new HashTable();
     private DoublyLinkedList dll = new DoublyLinkedList();
@@ -102,6 +109,60 @@ public class TaskManager {
         Task[] tasks = dll.getTaskArray();
         SortByPriorityUsingQuickSort s = new SortByPriorityUsingQuickSort(tasks);
         s.displaySorted();
+    }
+
+    public void displayTasksByDate(){
+        Task[] tasks = dll.getTaskArray();
+        if(tasks.length == 0){
+            System.out.println();
+            System.out.println("NO TASKS FOUND");
+            System.out.println();
+            return;
+        }
+
+        // Sort tasks by deadline using existing merge sort (sorts in-place via constructor)
+        new SortByDeadlineUsingMergeSort(tasks);
+
+        // Group tasks by date in insertion order
+        Map<LocalDate, List<Task>> tasksByDate = new LinkedHashMap<>();
+        for(Task task : tasks){
+            LocalDate date = task.getDeadline().toLocalDate();
+            tasksByDate.computeIfAbsent(date, d -> new ArrayList<>()).add(task);
+        }
+
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+
+        System.out.println();
+        System.out.println("=== Task Schedule by Date ===");
+        System.out.println();
+
+        LocalDate previousDate = null;
+        for(Map.Entry<LocalDate, List<Task>> entry : tasksByDate.entrySet()){
+            LocalDate date = entry.getKey();
+            List<Task> dayTasks = entry.getValue();
+
+            if(previousDate == null){
+                System.out.println("On " + date.format(dateFormatter) + ", you have:");
+            } else {
+                long daysBetween = previousDate.until(date, java.time.temporal.ChronoUnit.DAYS);
+                if(daysBetween == 1){
+                    System.out.println("Next day (" + date.format(dateFormatter) + "), you have:");
+                } else {
+                    System.out.println("On " + date.format(dateFormatter) + ", you have:");
+                }
+            }
+
+            String priorityLabel;
+            for(Task task : dayTasks){
+                priorityLabel = (task.getPriority() == 1) ? "HIGH" : (task.getPriority() == 2) ? "LOW" : "UNKNOWN";
+                System.out.println("  - " + task.getTaskName() +
+                        " (Priority: " + priorityLabel +
+                        ", Time: " + task.getDeadline().format(timeFormatter) + ")");
+            }
+            System.out.println();
+            previousDate = date;
+        }
     }
 
 }

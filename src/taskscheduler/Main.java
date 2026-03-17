@@ -20,7 +20,8 @@ public class Main {
             System.out.println("6. sort tasks by deadline");
             System.out.println("7. sort tasks by priority");
             System.out.println("8. save tasks to file: ");
-            System.out.println("9. exit");
+            System.out.println("9. display tasks by date");
+            System.out.println("10. exit");
             System.out.print("Enter your choice: ");
             ch = sc.nextInt();
             sc.nextLine();
@@ -91,8 +92,11 @@ public class Main {
                 case 8:
                     tm.save();
                     break;
+                case 9:
+                    tm.displayTasksByDate();
+                    break;
             }
-        }while(ch!=9);
+        }while(ch!=10);
         tm.save();
     }
 }
